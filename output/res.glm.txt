@@ -1,0 +1,153 @@
+
+Call:
+svyglm(formula = as.factor(outcome) ~ treatment, design = res.svydesign.weighted.binomial_outcome, 
+    family = quasibinomial(link = "logit"))
+
+Survey design:
+survey::svydesign(ids = ~1, data = data.propensityScores_IPW %>% 
+    dplyr::filter(!is.na(w_ato)), weights = ~w_ato)
+
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)   
+(Intercept)  -0.3722     0.3794  -0.981  0.33009   
+treatment    -2.3680     0.8668  -2.732  0.00807 **
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+(Dispersion parameter for quasibinomial family taken to be 1.014925)
+
+Number of Fisher Scoring iterations: 5
+
+(Intercept)   treatment 
+ 0.68918642  0.09366497 
+                 2.5 %    97.5 %
+(Intercept) 0.32764633 1.4496665
+treatment   0.01712934 0.5121694
+$CDAI
+$CDAI[[1]]
+
+Call:
+svyglm(formula = value.change ~ treatment, design = res.svydesign.weighted)
+
+Survey design:
+res.svydesign.weighted <- 
+        survey::svydesign(
+          ids = ~ 1, 
+          data = D %>% dplyr::filter(!is.na(w_ato)),
+          weights = ~ w_ato
+        )
+
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)    
+(Intercept)   10.507      3.005   3.497 0.000861 ***
+treatment1     4.977      3.900   1.276 0.206539    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+(Dispersion parameter for gaussian family taken to be 189.1719)
+
+Number of Fisher Scoring iterations: 2
+
+
+$CDAI[[2]]
+                2.5 %   97.5 %
+(Intercept)  4.617704 16.39582
+treatment1  -2.667394 12.62173
+
+
+$DAS28CRP
+$DAS28CRP[[1]]
+
+Call:
+svyglm(formula = value.change ~ treatment, design = res.svydesign.weighted)
+
+Survey design:
+res.svydesign.weighted <- 
+        survey::svydesign(
+          ids = ~ 1, 
+          data = D %>% dplyr::filter(!is.na(w_ato)),
+          weights = ~ w_ato
+        )
+
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)    
+(Intercept)   1.2281     0.2698   4.552 2.39e-05 ***
+treatment1    0.9577     0.4115   2.327   0.0231 *  
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+(Dispersion parameter for gaussian family taken to be 2.135117)
+
+Number of Fisher Scoring iterations: 2
+
+
+$DAS28CRP[[2]]
+                2.5 %   97.5 %
+(Intercept) 0.6993311 1.756786
+treatment1  0.1511940 1.764176
+
+
+$DAS28ESR
+$DAS28ESR[[1]]
+
+Call:
+svyglm(formula = value.change ~ treatment, design = res.svydesign.weighted)
+
+Survey design:
+res.svydesign.weighted <- 
+        survey::svydesign(
+          ids = ~ 1, 
+          data = D %>% dplyr::filter(!is.na(w_ato)),
+          weights = ~ w_ato
+        )
+
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)    
+(Intercept)   1.2707     0.2822   4.504 2.79e-05 ***
+treatment1    1.2867     0.4534   2.838  0.00603 ** 
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+(Dispersion parameter for gaussian family taken to be 2.534505)
+
+Number of Fisher Scoring iterations: 2
+
+
+$DAS28ESR[[2]]
+                2.5 %   97.5 %
+(Intercept) 0.7177008 1.823728
+treatment1  0.3980178 2.175407
+
+
+$SDAI
+$SDAI[[1]]
+
+Call:
+svyglm(formula = value.change ~ treatment, design = res.svydesign.weighted)
+
+Survey design:
+res.svydesign.weighted <- 
+        survey::svydesign(
+          ids = ~ 1, 
+          data = D %>% dplyr::filter(!is.na(w_ato)),
+          weights = ~ w_ato
+        )
+
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)    
+(Intercept)   11.068      3.060   3.617 0.000589 ***
+treatment1     5.788      4.186   1.383 0.171567    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+(Dispersion parameter for gaussian family taken to be 216.0876)
+
+Number of Fisher Scoring iterations: 2
+
+
+$SDAI[[2]]
+                2.5 %   97.5 %
+(Intercept)  5.069820 17.06647
+treatment1  -2.416666 13.99339
+
+

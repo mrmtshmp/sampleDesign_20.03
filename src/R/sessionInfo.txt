@@ -1,0 +1,49 @@
+R version 3.6.0 (2019-04-26)
+Platform: x86_64-apple-darwin15.6.0 (64-bit)
+Running under: macOS Mojave 10.14.6
+
+Matrix products: default
+BLAS:   /System/Library/Frameworks/Accelerate.framework/Versions/A/Frameworks/vecLib.framework/Versions/A/libBLAS.dylib
+LAPACK: /Library/Frameworks/R.framework/Versions/3.6/Resources/lib/libRlapack.dylib
+
+locale:
+[1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+
+attached base packages:
+[1] grid      stats     graphics  grDevices utils     datasets 
+[7] methods   base     
+
+other attached packages:
+ [1] caTools_1.18.0      randomForest_4.6-14 partykit_1.2-9     
+ [4] mvtnorm_1.1-1       libcoin_1.0-5       rpart_4.1-15       
+ [7] survey_4.0          survival_3.2-3      Matrix_1.2-18      
+[10] Matching_4.9-7      MASS_7.3-51.6       pROC_1.16.2        
+[13] tableone_0.12.0     dbplyr_1.4.4        readxl_1.3.1       
+[16] reshape2_1.4.4      forcats_0.5.0       stringr_1.4.0      
+[19] dplyr_1.0.2         purrr_0.3.4         readr_1.3.1        
+[22] tidyr_1.1.2         tibble_3.0.3        ggplot2_3.3.2      
+[25] tidyverse_1.3.0    
+
+loaded via a namespace (and not attached):
+ [1] httr_1.4.2         pkgload_1.1.0      jsonlite_1.7.1    
+ [4] splines_3.6.0      modelr_0.1.8       Formula_1.2-3     
+ [7] assertthat_0.2.1   blob_1.2.1         cellranger_1.1.0  
+[10] remotes_2.2.0      sessioninfo_1.1.1  pillar_1.4.6      
+[13] backports_1.1.10   lattice_0.20-41    glue_1.4.2        
+[16] digest_0.6.25      RColorBrewer_1.1-2 rvest_0.3.6       
+[19] colorspace_1.4-1   plyr_1.8.6         pkgconfig_2.0.3   
+[22] devtools_2.3.1     broom_0.7.1        haven_2.3.1       
+[25] scales_1.1.1       processx_3.4.3     generics_0.0.2    
+[28] usethis_1.6.1      ellipsis_0.3.1     withr_2.2.0       
+[31] cli_2.0.2          magrittr_1.5       crayon_1.3.4      
+[34] memoise_1.1.0      ps_1.3.3           GGally_2.0.0      
+[37] fs_1.5.0           fansi_0.4.1        xml2_1.3.2        
+[40] pkgbuild_1.1.0     prettyunits_1.1.1  tools_3.6.0       
+[43] hms_0.5.3          mitools_2.4        lifecycle_0.2.0   
+[46] munsell_0.5.0      reprex_0.3.0       callr_3.4.3       
+[49] compiler_3.6.0     inum_1.0-1         rlang_0.4.7       
+[52] rstudioapi_0.11    bitops_1.0-6       testthat_2.3.2    
+[55] gtable_0.3.0       DBI_1.1.0          reshape_0.8.8     
+[58] R6_2.4.1           lubridate_1.7.9    rprojroot_1.3-2   
+[61] desc_1.2.0         stringi_1.5.3      Rcpp_1.0.5        
+[64] vctrs_0.3.4        tidyselect_1.1.0  
