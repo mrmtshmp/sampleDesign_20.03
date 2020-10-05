@@ -1,0 +1,12 @@
+                            Stratified by treatment
+                             0             1             SMD   
+  n                          11.80         11.80               
+  Age (mean (SD))            66.97 (10.54) 66.97 (9.66)  <0.001
+  Duration_month (mean (SD)) 83.46 (73.82) 83.46 (87.12) <0.001
+  ACPA = 1 (%)                 9.9 (83.8)    9.9 (83.8)  <0.001
+  MTX.init (mean (SD))        6.70 (3.22)   6.70 (4.70)  <0.001
+  PSL.init (mean (SD))        3.36 (3.81)   3.36 (4.14)  <0.001
+  Tender.init (mean (SD))     8.68 (7.73)   8.68 (5.99)  <0.001
+  Swollen.init (mean (SD))    5.25 (6.52)   5.25 (4.23)  <0.001
+  PR_VAS.init (mean (SD))    46.18 (24.48) 46.18 (27.73) <0.001
+  MR_VAS.init (mean (SD))    42.77 (22.00) 42.77 (19.22) <0.001

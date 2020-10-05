@@ -2,6 +2,9 @@
 #' PI Dr.Endoh
 #' 2020/09/14
 
+
+setwd('./src/R')
+
 dir.sub <- './sub'
 Bibtex <- TRUE
 

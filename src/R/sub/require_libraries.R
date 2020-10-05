@@ -3,7 +3,7 @@
 
 
 packages.in.CRAN <- c(
-  "magrittr","tidyr", "ggplot2", "reshape2","readxl", "plyr","dbplyr", "tableone",
+  "magrittr","tidyr", "ggplot2", "reshape2","readxl", "plyr","dplyr", "tableone",
   "pROC","Matching","survey","brglm","rpart","partykit","randomForest","caTools"
   )
 

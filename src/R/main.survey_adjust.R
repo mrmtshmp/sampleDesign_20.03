@@ -3,6 +3,8 @@
 #' date created: 2020/09/28
 #' ---
 
+setwd('./src/R')
+
 # models ------------
 
 vars.1 <- c(
@@ -205,7 +207,7 @@ dev.off()
 res.svydesign.weighted <- 
   survey::svydesign(
     ids = ~ 1, 
-    data = data.propensityScores_IPW,
+    data = data.propensityScores_IPW %>% dplyr::filter(!is.na(propensity_score)),
     weights = ~ w_ato
     )
   
