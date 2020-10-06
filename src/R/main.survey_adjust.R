@@ -1,31 +1,11 @@
-#' Comparison of changes in RA activity between treatment groups, with adjusting sampling (assignment) unbalance.
+#' Comparison of changes in disease activities between treatment groups.
 #' PI: Dr Endoh
 #' date created: 2020/09/28
 #' ---
 
-setwd('./src/R')
-
-# models ------------
-
-vars.1 <- c(
-  "Age","Duration_month","ACPA",
-  "MTX.init","PSL.init",
-  "Tender.init",
-  "Swollen.init",
-  "PR_VAS.init",
-  "MR_VAS.init"
-  )
-
-vars <- "vars.1"
-
-fml.ps_model <- sprintf(
-  "treatment ~ %s", 
-  paste(eval(parse(text = vars)),collapse = "+")
-  ) 
-
 # subroutines-------
 
-dir.sub <- './sub'
+dir.sub <- './src/R/sub'
 Bibtex <- FALSE
 
 list.files.dir.sub <- list.files(path = dir.sub)
@@ -41,13 +21,58 @@ sink()
 
 load(file = sprintf("%s/%s", dir.ADS, fn.ADS))
 
+colinfo$col_label <- 
+  colinfo$col_label.2
+
 data$tratment <- factor(data$treatment)
+
+
+# models ------------
+vars.0 <- data.frame(colinfo)[colinfo$prop_model==1,"col_names"]
+vars.1 <- data.frame(colinfo)[colinfo$prop_model.0==1,"col_names"]
+vars.2 <- data.frame(colinfo)[colinfo$prop_model.1==1,"col_names"]
+vars.3 <- data.frame(colinfo)[colinfo$prop_model.2==1,"col_names"]
+vars.4 <- data.frame(colinfo)[colinfo$prop_model.3==1,"col_names"]
+vars.5 <- data.frame(colinfo)[colinfo$prop_model.4==1,"col_names"]
+vars.6 <- data.frame(colinfo)[colinfo$prop_model.5==1,"col_names"]
+vars.7 <- data.frame(colinfo)[colinfo$prop_model.6==1,"col_names"]
+vars.8 <- data.frame(colinfo)[colinfo$prop_model.7==1,"col_names"]
+vars.9 <- data.frame(colinfo)[colinfo$prop_model.8==1,"col_names"]
+vars.10 <- data.frame(colinfo)[colinfo$prop_model.9==1,"col_names"]
+# vars.11 <- data.frame(colinfo)[colinfo$prop_model.10==1,"col_names"]
+# vars.12 <- data.frame(colinfo)[colinfo$prop_model.11==1,"col_names"]
+# vars.13<- data.frame(colinfo)[colinfo$prop_model.12==1,"col_names"]
+# vars.14 <- data.frame(colinfo)[colinfo$prop_model.13==1,"col_names"]
+# vars.15 <- data.frame(colinfo)[colinfo$prop_model.14==1,"col_names"]
+# vars.16 <- data.frame(colinfo)[colinfo$prop_model.15==1,"col_names"]
+# vars.17 <- data.frame(colinfo)[colinfo$prop_model.16==1,"col_names"]
+# vars.18 <- data.frame(colinfo)[colinfo$prop_model.17==1,"col_names"]
+# vars.19 <- data.frame(colinfo)[colinfo$prop_model.18==1,"col_names"]
+# vars.20 <- data.frame(colinfo)[colinfo$prop_model.19==1,"col_names"]
+# vars.21 <- data.frame(colinfo)[colinfo$prop_model.20==1,"col_names"]
+# vars.22 <- data.frame(colinfo)[colinfo$prop_model.21==1,"col_names"]
+
+
+vars.smd.1 <- 
+  data.frame(colinfo)[
+    colinfo$smd==1,
+    "col_names"
+    ]
+
+vars <- "vars.0"
+vars.smd <- "vars.smd.1"
+
+fml.ps_model <- sprintf(
+  "treatment ~ %s", 
+  paste(eval(parse(text = vars)),collapse = "+")
+  )
+
 
 ## Construct a table
 tabUnmatched <-
   CreateTableOne(
-    vars = eval(parse(text=vars)), 
-    strata = "treatment", 
+    vars = eval(parse(text=vars.smd)), 
+    strata = data.frame(colinfo)[colinfo$exposure==1,"col_names"], 
     data = data, 
     test = FALSE)
 ## Show table with SMD
@@ -57,15 +82,15 @@ sink(
 print(tabUnmatched, smd = TRUE)
 sink()
 
-quartz(family = 'Arial',type = 'pdf',file = sprintf("%s/cov_rel.pairwise.pdf", dir.output))
-GGally::ggpairs(data[,eval(parse(text=vars))])
-dev.off()
-
 # Propensity score model ---------------
 
 propensityScoreModel <-
   glm(
-    gsub("treatment","factor\\(treatment\\)",fml.ps_model),
+    gsub(
+      data.frame(colinfo)[colinfo$exposure==1,"col_names"],
+      sprintf("factor\\(%s\\)",data.frame(colinfo)[colinfo$exposure==1,"col_names"]),
+      fml.ps_model
+      ),
     family  = binomial(link = "logit"),
     data = data, na.action = na.exclude
     )
@@ -98,14 +123,14 @@ data.propensityScores$propensity_score <-
 
 data.propensityScores_IPW <-
   IPW_weights(
-    treatment = data.propensityScores$treatment,
+    treatment = data.propensityScores[,data.frame(colinfo)[colinfo$exposure==1,"col_names"]],
     propensity_score = data.propensityScores$propensity_score,
     dat = data.propensityScores
     )
 
 res.roc.propensity_score <- roc(
   response = 
-    as.factor(data.propensityScores_IPW$treatment),
+    as.factor(data.propensityScores_IPW[,data.frame(colinfo)[colinfo$exposure==1,"col_names"]]),
   predictor = 
     data.propensityScores_IPW$propensity_score
   )
@@ -140,7 +165,7 @@ ggdata.propensityScores.weighted_count <-
 
 pdf(
   file = 
-    sprintf("%s/IPWcount.pdf", dir.output),
+    sprintf("%s/IPWcount.%s.pdf", dir.output,vars),
   width = 21
   )
 plot(
@@ -148,7 +173,7 @@ plot(
     geom_density(
       aes(
         fill = 
-          as.factor(treatment)
+          as.factor(get(data.frame(colinfo)[colinfo$exposure==1,"col_names"]))
         ),
       bw="SJ",
 #      binwidth = FD,
@@ -157,9 +182,9 @@ plot(
       ) +
   geom_point(
     aes(
-      y=as.numeric(treatment),
+      y=as.numeric(get(data.frame(colinfo)[colinfo$exposure==1,"col_names"])),
       x=propensity_score,
-      color=as.factor(treatment),
+      color=as.factor(get(data.frame(colinfo)[colinfo$exposure==1,"col_names"])),
       size=2
       )
     ) +
@@ -168,7 +193,7 @@ plot(
 plot(
   ggdata.propensityScores.weighted_count + 
     geom_density(
-      aes(fill=as.factor(treatment)),
+      aes(fill=as.factor(get(data.frame(colinfo)[colinfo$exposure==1,"col_names"]))),
       bw="SJ",
 #      binwidth = FD,
       alpha=0.5#,
@@ -214,7 +239,7 @@ res.svydesign.weighted <-
 ## Construct a table
 tabWeighted.weighted <- 
   svyCreateTableOne(
-    vars = eval(parse(text = vars)),
+    vars = eval(parse(text = vars.smd)),
     strata = "treatment", 
     data = res.svydesign.weighted, 
     test = FALSE
@@ -233,29 +258,34 @@ dataPlot <- data.frame(
   variable  = rownames(ExtractSmd(tabUnmatched)),
   rawdata = as.numeric(ExtractSmd(tabUnmatched)),
   weighted_data = as.numeric(ExtractSmd(tabWeighted.weighted))
+  ) %>% 
+  left_join(
+    colinfo, 
+    by = c("variable"="col_names")
   )
+dataPlot <- dataPlot[,c("col_label","rawdata","weighted_data")]
 
 ## Create long-format data for ggplot2
 dataPlotMelt <-
   melt(
     data          = dataPlot,
-    id.vars       = c("variable"),
+    id.vars       = c("col_label"),
     variable.name = "Method",
     value.name    = "SMD"
     )
 
 ## Order variable names by magnitude of SMD
 varNames <- unique(
-  as.character(dataPlot$variable)[
+  as.character(dataPlot$col_label)[
     order(dataPlot$rawdata)
     ]
   )
 
 
 ## Order factor levels in the same order
-dataPlotMelt$variable <- 
+dataPlotMelt$col_label <- 
   factor(
-    dataPlotMelt$variable,
+    dataPlotMelt$col_label,
     levels = varNames
     )
 
@@ -263,17 +293,18 @@ dataPlotMelt$variable <-
 
 quartz(
   family = "Arial",type = "pdf",
-  file =   sprintf("%s/smd.pdf",dir.output)
+  file =   sprintf("%s/smd_%s.pdf",dir.output,vars)
   )
 ggplot(
   data = dataPlotMelt,
-  mapping = aes(x = variable, y = SMD, group = Method, color = Method)
+  mapping = aes(x = col_label, y = SMD, group = Method, color = Method)
   ) +
   geom_line() +
   geom_point() +
   geom_hline(yintercept = 0.1, color = "black", size = 0.1) +
   coord_flip() +
-  theme_bw() + theme(legend.key = element_blank())
+  theme_bw() + 
+  theme(legend.key = element_blank())
 dev.off()
 
 # Make long data ----------------------------------------------------------
@@ -288,7 +319,7 @@ ADS <- data %>%
   dplyr::rename(
     value.pre=value
   ) %>%
-  left_join(
+  dplyr::left_join(
     data %>%
       pivot_longer(
         cols =ends_with("oc_post")
@@ -352,12 +383,51 @@ res.glmWeighted.binomial_outcome <-
     design  = res.svydesign.weighted.binomial_outcome
     )
 
+res.glmWeighted.ordinal_outcome <-
+  svyolr(
+    formula = factor(EULAR_response.oc_post) ~ treatment,
+    design  = res.svydesign.weighted.binomial_outcome
+  )
+
 sink(sprintf("%s/res.glm.txt", dir.output))
+print("+++++++++++++++++")
+print("$outcome")
+print("+++++++++++++++++")
 print(summary(res.glmWeighted.binomial_outcome))
 print(exp(res.glmWeighted.binomial_outcome$coefficients))
 print(exp(confint(res.glmWeighted.binomial_outcome)))
-
+print("+++++++++++++++++")
+print("$EULAR_response")
+print("+++++++++++++++++")
+print(
+  tidy(
+    res.glmWeighted.ordinal_outcome,
+    conf.int = TRUE,
+    conf.level = 0.95,
+    exponentiate = TRUE,
+    p.values = FALSE
+    ) %>% data.frame()
+  )
 lapply(list.res.glm, function(L){list(summary(L),confint(L))})
 sink()
 
-#```
+
+#' Investigation for the inconsistency 
+#' in the estimates between 'Response' 
+#' and other numeric outcomes.
+
+quartz(type = 'pdf',
+  file = sprintf('%s/%s', dir.output,'outcome.changeVal_vs_response.pdf')
+  )
+dlply(
+  ADS %>% data.frame(),
+  .(name),
+  function(D){
+    ylab <- unique(D$name)
+    ggdata <- ggplot(data = D,
+                     aes(x = as.factor(outcome), y=value.change)
+    )
+    plot(ggdata+geom_boxplot()+labs(y=ylab)+theme_bw())
+  }
+)
+dev.off()

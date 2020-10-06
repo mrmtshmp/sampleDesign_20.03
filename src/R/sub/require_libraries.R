@@ -4,7 +4,7 @@
 
 packages.in.CRAN <- c(
   "magrittr","tidyr", "ggplot2", "reshape2","readxl", "plyr","dplyr", "tableone",
-  "pROC","Matching","survey","brglm","rpart","partykit","randomForest","caTools"
+  "pROC","Matching","survey","brglm","rpart","partykit","broom"
   )
 
 for(i in 1:length(packages.in.CRAN)){
@@ -28,7 +28,7 @@ for(i in 1:length(packages.in.CRAN)){
 if(Bibtex){
   write(toBibtex(citation()),file="CRAN")
   for(i in 1:length(packages.in.CRAN)){
-    write(toBibtex(citation(packages.in.CRAN[i])),file=sprintf("../biblio/%s%s.bib",packages.in.CRAN[i],"_CRAN"))
+    write(toBibtex(citation(packages.in.CRAN[i])),file=sprintf("./src/biblio/%s%s.bib",packages.in.CRAN[i],"_CRAN"))
   }
 }
 

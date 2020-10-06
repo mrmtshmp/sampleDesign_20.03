@@ -3,9 +3,7 @@
 #' 2020/09/14
 
 
-setwd('./src/R')
-
-dir.sub <- './sub'
+dir.sub <- './src/R/sub'
 Bibtex <- TRUE
 
 list.files.dir.sub <- list.files(path = dir.sub)
@@ -29,6 +27,9 @@ data <-
     ) %>%
   data.frame()
 
-save(data,file = sprintf("%s/%s", dir.ADS, fn.ADS))
+save(data,colinfo,file = sprintf("%s/%s", dir.ADS, fn.ADS))
 
+quartz(family = 'Arial',type = 'pdf',file = sprintf("%s/cov_rel.pairwise.pdf", dir.output))
+GGally::ggpairs(data[,eval(parse(text=vars))])
+dev.off()
 

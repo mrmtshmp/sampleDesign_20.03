@@ -3,10 +3,10 @@
 #' PI Dr.Endoh
 #' 2020/09/17
 
-dir.data <- "../../../../mail/2009"
-fn.data  <- "HTLV-1_20200915.xlsx"
+dir.data <- "../../mail/2010"
+fn.data  <- "HTLV-1_20201006.xlsx"
 
-dir.ADS <- "../../../data"
+dir.ADS <- "../data"
 fn.ADS <- "ADS.RData"
 
-dir.output <- "../../output"
+dir.output <- "./output"
